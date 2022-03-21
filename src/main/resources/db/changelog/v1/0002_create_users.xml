@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="0002" author="AlekseyGl">
+        <sql>
+            CREATE TABLE `users`
+            (
+                `id`        int          NOT NULL AUTO_INCREMENT,
+                `name`      varchar(250) NOT NULL,
+                `password`  varchar(250) NOT NULL,
+                `is_active` tinyint(1) NOT NULL DEFAULT '0',
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
