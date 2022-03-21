@@ -17,7 +17,7 @@ public class Document {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "doc_html")
+    @Column(name = "doc_html", columnDefinition = "TEXT")
     private String docHtml;
 
     @Column(name = "doc_path", length = 250)

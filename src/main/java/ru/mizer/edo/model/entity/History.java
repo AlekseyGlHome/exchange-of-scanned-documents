@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,13 +24,13 @@ public class History {
     private User user;
 
     @Column(name = "date", nullable = false)
-    private Instant date;
+    private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "document_id", nullable = false)
     private Document document;
 
-    @Column(name = "old_doc_html")
+    @Column(name = "old_doc_html", columnDefinition = "TEXT")
     private String oldDocHtml;
 
     @Column(name = "old_doc_path", length = 250)
@@ -41,7 +42,7 @@ public class History {
     @Column(name = "old_is_done")
     private Boolean oldIsDone;
 
-    @Column(name = "new_doc_html")
+    @Column(name = "new_doc_html", columnDefinition = "TEXT")
     private String newDocHtml;
 
     @Column(name = "new_doc_path", length = 250)
