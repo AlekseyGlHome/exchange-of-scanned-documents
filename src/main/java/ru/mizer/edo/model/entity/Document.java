@@ -27,7 +27,7 @@ public class Document {
     private String header;
 
     @Column(name = "is_done", nullable = false)
-    private Boolean isDone = false;
+    private Boolean isDone;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "autor_id", nullable = false)
