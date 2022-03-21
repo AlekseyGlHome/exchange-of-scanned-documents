@@ -20,6 +20,7 @@ public class ConvertDocument {
                 .isDone(doc.getIsDone())
                 .autor(convertUser.userToDto(doc.getAutor()))
                 .userLastChange(convertUser.userToDto(doc.getUserLastChange()))
+                .dateCreate(doc.getDateCreate())
                 .build();
     }
 }

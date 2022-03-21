@@ -20,7 +20,7 @@ public class DocumentService {
 
     public Collection<DocumentDto> findAll(int offset, int limit) {
         PageRequest pageRequest = getPageRequest(offset, limit);
-        Page<Document> documents = documentRepository.findByIsDoneTrue(pageRequest);
+        Page<Document> documents = documentRepository.findByIsDoneFalseOrderByDateCreate(pageRequest);
         return documents.stream().map(convertDocument::DocumentToDto).toList();
     }
 

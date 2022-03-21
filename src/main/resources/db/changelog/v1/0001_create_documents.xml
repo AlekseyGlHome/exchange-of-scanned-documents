@@ -10,6 +10,7 @@
             CREATE TABLE `documents`
             (
                 `id`                  int          NOT NULL AUTO_INCREMENT,
+                `date_create`         datetime     NOT NULL,
                 `doc_html`            text,
                 `doc_path`            varchar(250) DEFAULT NULL,
                 `header`              varchar(250) NOT NULL,

@@ -26,4 +26,8 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
 
+    @Column(name = "shop")
+    private String shop;
+
+
 }

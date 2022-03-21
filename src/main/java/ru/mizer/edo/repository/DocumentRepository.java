@@ -9,5 +9,5 @@ import ru.mizer.edo.model.entity.Document;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer> {
 
-    Page<Document> findByIsDoneTrue(Pageable pageable);
+    Page<Document> findByIsDoneFalseOrderByDateCreate(Pageable pageable);
 }

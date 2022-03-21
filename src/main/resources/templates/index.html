@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Приходные документы</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
 <body>
     <H1>Приходные документы</H1>
+    <table class="table_dark">
+        <tr>
+            <th>№</th>
+            <th>Дата</th>
+            <th>Описание</th>
+            <th>Автор</th>
+            <th>Изменение</th>
+        </tr>
+        <tr th:each="doc:${docs}" >
+            <td></td>
+            <td>
+                <a class="link" th:text="${doc.dateCreate}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
+                </td>
+            <td>
+                <a class="link" th:text="${doc.header}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
+            </td>
+            <td>
+                <a class="link" th:text="${doc.autor.name+' : '+doc.autor.shop}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
+            </td>
+            <td>
+                <a class="link" th:text="${doc.userLastChange.name}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
