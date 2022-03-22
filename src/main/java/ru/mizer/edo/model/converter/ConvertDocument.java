@@ -1,11 +1,12 @@
 package ru.mizer.edo.model.converter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.mizer.edo.model.dto.DocumentDto;
 import ru.mizer.edo.model.entity.Document;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class ConvertDocument {
 
@@ -14,13 +15,16 @@ public class ConvertDocument {
     public DocumentDto DocumentToDto(Document doc) {
         return DocumentDto.builder()
                 .id(doc.getId())
+                .dateCreate(doc.getDateCreate())
+                .dateDoc(doc.getDateDoc())
+                .sum(doc.getSum())
+                .supplier(doc.getSupplier())
                 .docHtml(doc.getDocHtml())
-                .docPath(doc.getDocPath())
                 .header(doc.getHeader())
                 .isDone(doc.getIsDone())
                 .autor(convertUser.userToDto(doc.getAutor()))
                 .userLastChange(convertUser.userToDto(doc.getUserLastChange()))
-                .dateCreate(doc.getDateCreate())
+                .dateLastEdit(doc.getDateLastEdit())
                 .build();
     }
 }

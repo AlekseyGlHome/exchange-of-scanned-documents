@@ -21,11 +21,17 @@ public class Document {
     @Column(name = "date_create")
     private LocalDateTime dateCreate;
 
+    @Column(name = "date_doc")
+    private LocalDateTime dateDoc;
+
+    @Column(name = "sum")
+    private Double sum;
+
+    @Column(name = "supplier")
+    private String supplier;
+
     @Column(name = "doc_html", columnDefinition = "TEXT")
     private String docHtml;
-
-    @Column(name = "doc_path", length = 250)
-    private String docPath;
 
     @Column(name = "header", nullable = false, length = 250)
     private String header;
@@ -41,4 +47,6 @@ public class Document {
     @JoinColumn(name = "user_id_last_change")
     private User userLastChange;
 
+    @Column(name = "date_last_edit")
+    private LocalDateTime dateLastEdit;
 }

@@ -9,4 +9,5 @@
     <include file="db/changelog/v1/0002_create_users.xml"/>
     <include file="db/changelog/v1/0001_create_documents.xml"/>
     <include file="db/changelog/v1/0003_create_history.xml"/>
+    <include file="db/changelog/v1/0004_create_files_path.xml"/>
 </databaseChangeLog>

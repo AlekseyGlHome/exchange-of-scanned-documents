@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.mizer.edo.api.response.DocResponse;
 import ru.mizer.edo.exception.NotFoundException;
 import ru.mizer.edo.model.converter.ConvertDocument;
 import ru.mizer.edo.model.dto.DocumentDto;
@@ -18,10 +19,12 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final ConvertDocument convertDocument;
 
-    public Collection<DocumentDto> findAll(int offset, int limit) {
+    public DocResponse findAll(int offset, int limit) {
         PageRequest pageRequest = getPageRequest(offset, limit);
         Page<Document> documents = documentRepository.findByIsDoneFalseOrderByDateCreate(pageRequest);
-        return documents.stream().map(convertDocument::DocumentToDto).toList();
+        Collection<DocumentDto> documentDtos = documents.stream().map(convertDocument::DocumentToDto).toList();
+
+        return new DocResponse(documents.getTotalPages(), documents.getNumber(), documentDtos);
     }
 
     public DocumentDto findById(int id) throws NotFoundException {
