@@ -3,41 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Приходные документы</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
     <H1>Приходные документы</H1>
-    <table class="table_dark">
-        <tr>
-            <th>№</th>
-            <th>Дата</th>
-            <th>Описание</th>
-            <th>Автор</th>
-            <th>Изменение</th>
-        </tr>
-        <tr th:each="doc, state :${docsResp.getDocuments()}" >
-            <td th:text="${state.count}"></td>
-            <td>
-                <a class="link" th:text="${doc.dateCreate}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
-                </td>
-            <td>
-                <a class="link" th:text="${doc.header}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
-            </td>
-            <td>
-                <a class="link" th:text="${doc.autor.name+' : '+doc.autor.shop}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
-            </td>
-            <td>
-                <a class="link" th:text="${doc.userLastChange.name}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}"></a>
-            </td>
-        </tr>
-    </table>
-    <div th:if="${docsResp.getTotalPage() > 0}" class="pagination"
-         th:each="pageNumber : ${pageNumber}">
-        <a th:href="@{/listBooks(size=${docsResp.getDocuments()}, page=${pageNumber})}"
-           th:text=${pageNumber}
-           th:class="${pageNumber==docsResp.number + 1} ? active"></a>
+    <br>
+    <ul class="nav nav-pills ">
+        <li class="nav-item align-items-center">
+            <a class="nav-link active" aria-current="page" href="#">Новые документы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Архив</a>
+        </li>
+    </ul>
+    <br>
+    <nav aria-label="...">
+        <ul th:if="${docsResp.getTotalPage() > 0}" class="pagination pagination-lg">
+            <li aria-current="page" class="page-item " th:classappend="${pageNumber1==docsResp.number + 1} ? active" th:each="pageNumber1 : ${pageNumber}" >
+                <a class="page-link" th:href="@{/(limit=10, page=${pageNumber1})}"
+                   th:text="${pageNumber1}"></a>
+            </li>
+        </ul>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="row h5 mb-5">
+            <div class="col">
+                Дата добавления
+            </div>
+            <div class="col">
+                Дата документа
+            </div>
+            <div class="col">
+                Номер документа
+            </div>
+            <div class="col">
+                Сумма документа
+            </div>
+            <div class="col">
+                Поставщик
+            </div>
+            <div class="col">
+                Автор
+            </div>
+        </div>
+        <a class="link_"  th:each="doc, state :${docsResp.getDocuments()}" th:href="@{http://localhost:8080/details(orderId=${doc.id})}" >
+            <div class="row">
+                <div class="col mb-3" th:text="${#temporals.format(doc.dateCreate,'dd.MM.yyyy HH:mm')}">
+                </div>
+                <div class="col">
+                    ---
+                </div>
+                <div class="col">
+                    ---
+                </div>
+                <div class="col">
+                    ---
+                </div>
+                <div class="col">
+                    ---
+                </div>
+                <div class="col" th:text="${doc.autor.name}">
+                </div>
+            </div>
+        </a>
     </div>
+
+    <br>
+    <br>
+
+
 </body>
 </html>

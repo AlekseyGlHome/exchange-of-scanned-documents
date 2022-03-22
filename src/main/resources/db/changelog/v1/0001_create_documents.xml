@@ -10,8 +10,8 @@
             CREATE TABLE `documents`
             (
                 `id`                  int          NOT NULL AUTO_INCREMENT,
-                `date_create`         datetime     NOT NULL,
-                `date_doc`            datetime     NOT NULL,
+                `date_create`         timestamp     NOT NULL,
+                `date_doc`            timestamp     NOT NULL,
                 `sum`                 double(18,2) NOT NULL,
                 `supplier`            varchar(250) NOT NULL,
                 `doc_html`            text,
@@ -19,7 +19,7 @@
                 `is_done`             tinyint(1) NOT NULL DEFAULT '0',
                 `autor_id`            int          NOT NULL,
                 `user_id_last_change` int          NOT NULL,
-                `date_last_edit`      datetime     NOT NULL,
+                `date_last_edit`      timestamp     NOT NULL,
                 PRIMARY KEY (`id`),
                 KEY                   `documents_FK` (`autor_id`),
                 KEY                   `documents_FK_1` (`user_id_last_change`),

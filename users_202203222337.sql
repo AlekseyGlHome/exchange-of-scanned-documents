@@ -1,0 +1,2 @@
+INSERT INTO EDO.USERS (NAME,PASSWORD,IS_ACTIVE,SHOP) VALUES
+	 ('Пользователь 1','111',1,'Офис');

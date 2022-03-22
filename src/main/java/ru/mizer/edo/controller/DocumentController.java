@@ -21,9 +21,9 @@ public class DocumentController {
 
     @GetMapping
     public String index(Model model,
-                        @RequestParam(defaultValue = "0", value = "offset") int offSet,
+                        @RequestParam(defaultValue = "1", value = "page") int page,
                         @RequestParam(defaultValue = "10", value = "limit") int limit){
-        DocResponse docResponse = docService.findAll(offSet, limit);
+        DocResponse docResponse = docService.findAll(page, limit);
         model.addAttribute("docsResp",docResponse);
         int totalPages = docResponse.getTotalPage();
         if (totalPages>0){

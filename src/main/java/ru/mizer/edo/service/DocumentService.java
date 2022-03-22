@@ -19,8 +19,8 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final ConvertDocument convertDocument;
 
-    public DocResponse findAll(int offset, int limit) {
-        PageRequest pageRequest = getPageRequest(offset, limit);
+    public DocResponse findAll(int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page-1,limit);//getPageRequest(offset, limit);
         Page<Document> documents = documentRepository.findByIsDoneFalseOrderByDateCreate(pageRequest);
         Collection<DocumentDto> documentDtos = documents.stream().map(convertDocument::DocumentToDto).toList();
 
