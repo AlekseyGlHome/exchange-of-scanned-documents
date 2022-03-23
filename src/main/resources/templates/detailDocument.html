@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детализация документа</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <div class="h1_margin">
+        <h1 th:text="'Детализация документа № ' + ${doc.getNomerDoc()}" ></h1>
+    </div>
+
+    <form>
+        <button type="submit" class="btn btn-primary form_elem">Записать изменения</button>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="form-check form_elem">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"> Обработан
+                    </label>
+                </div>
+            </div>>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Дата документа</label>
+                <input type="datetime-local" class="form-control" placeholder="Дата">
+            </div>
+            <div class="col">
+                <label>Номер документа</label>
+                <input type="text" class="form-control" placeholder="Номер">
+            </div>
+            <div class="col">
+                <label>Сумма</label>
+                <input type="text" class="form-control" placeholder="Сумма">
+            </div>
+            <div class="col">
+                <label>Поставщик</label>
+                <input type="text" class="form-control" placeholder="Поставщик">
+            </div>
+        </div>
+
+        <div class="nav_margin"></div>
+
+        <div class="row">
+            <div class="col">
+                <label>Дата Добавления</label>
+                <input class="form-control" type="datetime-local" placeholder="Создали" readonly>
+            </div>
+            <div class="col">
+                <label>Автор</label>
+                <input class="form-control" type="text" placeholder="Автор" readonly>
+            </div>
+            <div class="col">
+                <label>Последнее изменение</label>
+                <input class="form-control" type="text" placeholder="Последнее изменение" readonly>
+            </div>
+            <div class="col">
+                <label>Измененил</label>
+                <input class="form-control" type="text" placeholder="Измененил" readonly>
+            </div>
+
+        </div>
+
+
+    </form>
+
+</body>
+</html>

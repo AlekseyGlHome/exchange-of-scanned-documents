@@ -28,6 +28,11 @@
 /*.table_dark tr:hover td {*/
 /*    text-decoration: underline;*/
 /*}*/
+
+body{
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+}
+
 a.link_ {
     color: #000000;
     text-decoration: none;
@@ -51,4 +56,24 @@ a.link_:hover{
     padding-left: 1em;
     list-style: none;
     justify-content: flex-start;
+}
+
+.h1_margin{
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    margin-left: 4rem;
+}
+
+.nav_margin{
+    margin-bottom: 2rem;
+}
+
+.form_elem{
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+    margin-left: 3rem;
+}
+
+.body_margin{
+    margin-bottom: 4rem;
 }

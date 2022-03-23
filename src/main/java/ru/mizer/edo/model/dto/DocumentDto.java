@@ -19,6 +19,7 @@ public class DocumentDto {
     private LocalDateTime dateCreate;
     private LocalDateTime dateDoc;
     private Double sum;
+    private String nomerDoc;
     private String supplier;
     private String docHtml;
     private String header;

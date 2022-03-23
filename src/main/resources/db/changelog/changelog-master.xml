@@ -11,4 +11,5 @@
     <include file="db/changelog/v1/0003_create_history.xml"/>
     <include file="db/changelog/v1/0004_create_files_path.xml"/>
     <include file="db/changelog/v1/0005_test_data.xml"/>
+    <include file="db/changelog/v1/0006_test_data.xml"/>
 </databaseChangeLog>

@@ -16,4 +16,5 @@ public class DocResponse {
     private int totalPage;
     private int number;
     private Collection<DocumentDto> documents;
+    private boolean isNew;
 }

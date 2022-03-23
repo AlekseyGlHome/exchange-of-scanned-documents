@@ -13,6 +13,7 @@
                 `date_create`         timestamp     NOT NULL,
                 `date_doc`            timestamp     NOT NULL,
                 `sum`                 double(18,2) NOT NULL,
+                `nomer_doc`           varchar(50) NOT NULL,
                 `supplier`            varchar(250) NOT NULL,
                 `doc_html`            text,
                 `header`              varchar(250) NOT NULL,

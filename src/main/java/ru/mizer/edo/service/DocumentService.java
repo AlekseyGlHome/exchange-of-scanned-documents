@@ -19,12 +19,22 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private final ConvertDocument convertDocument;
 
-    public DocResponse findAll(int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page-1,limit);//getPageRequest(offset, limit);
-        Page<Document> documents = documentRepository.findByIsDoneFalseOrderByDateCreate(pageRequest);
+    public DocResponse findAll(int page, int limit, String sorting) {
+        PageRequest pageRequest = PageRequest.of(page - 1, limit);//getPageRequest(offset, limit);
+        Page<Document> documents;
+        switch (sorting.toLowerCase()) {
+            case "new":
+                documents = documentRepository.findByIsDoneFalseOrderByDateCreate(pageRequest);
+                break;
+            default:
+                documents = documentRepository.findByIsDoneTrueOrderByDateLastEditDesc(pageRequest);
+                break;
+
+        }
+
         Collection<DocumentDto> documentDtos = documents.stream().map(convertDocument::DocumentToDto).toList();
 
-        return new DocResponse(documents.getTotalPages(), documents.getNumber(), documentDtos);
+        return new DocResponse(documents.getTotalPages(), documents.getNumber(), documentDtos, sorting.equals("new")==true ? true : false);
     }
 
     public DocumentDto findById(int id) throws NotFoundException {
@@ -34,8 +44,9 @@ public class DocumentService {
 
     }
 
-    private PageRequest getPageRequest(int offset, int limit) {
-        int numberPage = offset / limit;
-        return PageRequest.of(numberPage, limit);
-    }
+
+//    private PageRequest getPageRequest(int offset, int limit) {
+//        int numberPage = offset / limit;
+//        return PageRequest.of(numberPage, limit);
+//    }
 }

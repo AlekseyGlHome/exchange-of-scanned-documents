@@ -27,6 +27,9 @@ public class Document {
     @Column(name = "sum")
     private Double sum;
 
+    @Column(name = "nomer_doc")
+    private String nomerDoc;
+
     @Column(name = "supplier")
     private String supplier;
 

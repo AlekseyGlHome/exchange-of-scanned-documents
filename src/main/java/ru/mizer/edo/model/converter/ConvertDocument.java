@@ -18,6 +18,7 @@ public class ConvertDocument {
                 .dateCreate(doc.getDateCreate())
                 .dateDoc(doc.getDateDoc())
                 .sum(doc.getSum())
+                .nomerDoc(doc.getNomerDoc())
                 .supplier(doc.getSupplier())
                 .docHtml(doc.getDocHtml())
                 .header(doc.getHeader())
