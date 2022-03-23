@@ -20,11 +20,9 @@ public class ConvertDocument {
                 .sum(doc.getSum())
                 .nomerDoc(doc.getNomerDoc())
                 .supplier(doc.getSupplier())
-                .docHtml(doc.getDocHtml())
-                .header(doc.getHeader())
                 .isDone(doc.getIsDone())
-                .autor(convertUser.userToDto(doc.getAutor()))
-                .userLastChange(convertUser.userToDto(doc.getUserLastChange()))
+                .autor(doc.getAutor().getName())
+                .userLastChange(doc.getUserLastChange().getName())
                 .dateLastEdit(doc.getDateLastEdit())
                 .build();
     }

@@ -51,6 +51,15 @@ a.link_:hover{
     align-items: center;
     justify-content: center;
 }
+.nav_back {
+    display: flex;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: left;
+}
 .pagination {
     display: flex;
     padding-left: 1em;
@@ -69,11 +78,18 @@ a.link_:hover{
 }
 
 .form_elem{
-    margin-bottom: 3rem;
-    margin-top: 3rem;
+    margin-bottom: 1rem;
+    /*margin-top: 2rem;*/
     margin-left: 3rem;
+}
+.input_margin{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .body_margin{
     margin-bottom: 4rem;
+}
+.font-bold {
+    font-weight: bold;
 }

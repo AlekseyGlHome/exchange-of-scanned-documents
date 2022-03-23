@@ -3,13 +3,11 @@ package ru.mizer.edo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.mizer.edo.api.response.DocResponse;
 import ru.mizer.edo.exception.NotFoundException;
 import ru.mizer.edo.model.dto.DocumentDto;
+import ru.mizer.edo.model.dto.UserDto;
 import ru.mizer.edo.service.DocumentService;
 
 import java.util.List;
@@ -18,10 +16,11 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("document")
 public class DocumentController {
     private final DocumentService docService;
 
-    @GetMapping("/document")
+    @GetMapping()
     public String document(Model model,
                         @RequestParam(defaultValue = "1", value = "page") int page,
                         @RequestParam(defaultValue = "10", value = "limit") int limit,
@@ -35,12 +34,24 @@ public class DocumentController {
         }
         return "index";
     }
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public String findById(@PathVariable int id, Model model) throws NotFoundException {
-
         DocumentDto documentDto = docService.findById(id);
         model.addAttribute("doc",documentDto);
         return "detailDocument";
     }
 
+    @GetMapping("/new")
+    public String newDoc(Model model) throws NotFoundException {
+
+        DocumentDto documentDto = DocumentDto.builder().build();
+        model.addAttribute("doc",documentDto);
+        return "detailDocument";
+    }
+
+    @PostMapping("/save")
+    public String seveDoc(DocumentDto documentDto) throws NotFoundException {
+        docService.saveDocument(documentDto);
+        return "redirect:/";
+    }
 }

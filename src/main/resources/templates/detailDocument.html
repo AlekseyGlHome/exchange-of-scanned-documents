@@ -9,58 +9,64 @@
 </head>
 <body>
     <div class="h1_margin">
-        <h1 th:text="'Детализация документа № ' + ${doc.getNomerDoc()}" ></h1>
+        <h1 th:text="${doc.getNomerDoc()==null} ?  'Новый документ':'Детализация документа № ' + ${doc.getNomerDoc()}" ></h1>
+    </div>
+    <div>
+        <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-4">Назад</a>
+        <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-4">Добавить скан документа</a>
     </div>
 
-    <form>
-        <button type="submit" class="btn btn-primary form_elem">Записать изменения</button>
+    <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post">>
+        <button type="submit" class="btn btn-primary form_elem">Записать документ</button>
         <br>
-        <div class="row">
+        <div class="row " >
             <div class="col">
                 <div class="form-check form_elem">
+                    <input type="hidden" class="form-control" placeholder="user" th:field="*{id}">
+<!--                    <input type="hidden" class="form-control" placeholder="user" th:field="*{userLastChange}">-->
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox"> Обработан
+                        <input class="form-check-input" type="checkbox" th:field="*{isDone}"> Обработан
                     </label>
                 </div>
             </div>>
         </div>
-        <div class="row">
+        <div class="row input_margin">
             <div class="col">
                 <label>Дата документа</label>
-                <input type="datetime-local" class="form-control" placeholder="Дата">
+                <input type="datetime" class="form-control" placeholder="Дата" th:field="*{dateDoc}">
             </div>
             <div class="col">
                 <label>Номер документа</label>
-                <input type="text" class="form-control" placeholder="Номер">
+                <input type="text" class="form-control" placeholder="Номер" th:field="*{nomerDoc}">
             </div>
             <div class="col">
                 <label>Сумма</label>
-                <input type="text" class="form-control" placeholder="Сумма">
+                <input type="text" class="form-control" placeholder="Сумма" th:field="*{sum}">
             </div>
             <div class="col">
                 <label>Поставщик</label>
-                <input type="text" class="form-control" placeholder="Поставщик">
+                <input type="text" class="form-control" placeholder="Поставщик" th:field="*{supplier}">
             </div>
         </div>
 
         <div class="nav_margin"></div>
 
-        <div class="row">
+        <div class="row input_margin">
             <div class="col">
                 <label>Дата Добавления</label>
-                <input class="form-control" type="datetime-local" placeholder="Создали" readonly>
+                <input class="form-control" type="datetime" placeholder="Создали" th:field="*{dateCreate}" readonly>
             </div>
             <div class="col">
                 <label>Автор</label>
-                <input class="form-control" type="text" placeholder="Автор" readonly>
+                <input class="form-control" type="text" placeholder="Автор" th:field="*{autor}" readonly>
             </div>
             <div class="col">
                 <label>Последнее изменение</label>
-                <input class="form-control" type="text" placeholder="Последнее изменение" readonly>
+                <input class="form-control" type="datetime" placeholder="Последнее изменение" th:field="*{dateLastEdit}" readonly>
             </div>
             <div class="col">
                 <label>Измененил</label>
-                <input class="form-control" type="text" placeholder="Измененил" readonly>
+                <input class="form-control" type="text" placeholder="Измененил" th:field="*{userLastChange}" readonly>
             </div>
 
         </div>

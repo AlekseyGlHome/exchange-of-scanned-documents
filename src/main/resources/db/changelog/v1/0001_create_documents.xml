@@ -11,12 +11,10 @@
             (
                 `id`                  int          NOT NULL AUTO_INCREMENT,
                 `date_create`         timestamp     NOT NULL,
-                `date_doc`            timestamp     NOT NULL,
+                `date_doc`            date     NOT NULL,
                 `sum`                 double(18,2) NOT NULL,
                 `nomer_doc`           varchar(50) NOT NULL,
                 `supplier`            varchar(250) NOT NULL,
-                `doc_html`            text,
-                `header`              varchar(250) NOT NULL,
                 `is_done`             tinyint(1) NOT NULL DEFAULT '0',
                 `autor_id`            int          NOT NULL,
                 `user_id_last_change` int          NOT NULL,

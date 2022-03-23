@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,7 +23,7 @@ public class Document {
     private LocalDateTime dateCreate;
 
     @Column(name = "date_doc")
-    private LocalDateTime dateDoc;
+    private LocalDate dateDoc;
 
     @Column(name = "sum")
     private Double sum;
@@ -32,12 +33,6 @@ public class Document {
 
     @Column(name = "supplier")
     private String supplier;
-
-    @Column(name = "doc_html", columnDefinition = "TEXT")
-    private String docHtml;
-
-    @Column(name = "header", nullable = false, length = 250)
-    private String header;
 
     @Column(name = "is_done", nullable = false)
     private Boolean isDone;

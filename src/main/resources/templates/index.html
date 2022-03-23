@@ -1,93 +1,88 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Внутренний документооборот 'ЭДО'</title>
-        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-        <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    </head>
-    <body>
-    <div class="h1_margin">
-        <H1>Внутренний документооборот 'ЭДО'</H1>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Внутренний документооборот 'ЭДО'</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<div class="h1_margin">
+    <H1>Внутренний документооборот 'ЭДО 1.0'</H1>
+</div>
 
 
-    <ul class="nav nav-pills  my-3 mx-4">
-        <li class="nav-item align-items-center">
-            <a class="nav-link" aria-current="page" href="/document?limit=10&page=1&sorting=new"
-               th:classappend="${docsResp.isNew()== true} ? active">Новые документы</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/document?limit=10&page=1&sorting=arxiv"
-               th:classappend="${docsResp.isNew()== false} ? active">Архив документов</a>
-        </li>
-    </ul>
+<ul class="nav nav-pills  my-3 mx-4">
+    <li class="nav-item align-items-center">
+        <a class="nav-link" aria-current="page" href="/document?limit=10&page=1&sorting=new"
+           th:classappend="${docsResp.isNew()== true} ? active">Документы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/document?limit=10&page=1&sorting=arxiv"
+           th:classappend="${docsResp.isNew()== false} ? active">Архив</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/document/new"
+           >Новый документ</a>
+    </li>
+</ul>
 
-    <div class="nav_margin">
-        <nav aria-label="...">
-            <ul th:if="${docsResp.getTotalPage() > 0}" class="pagination pagination-lg">
-                <li aria-current="page" class="page-item " th:classappend="${pageNumber1==docsResp.number + 1} ? active"
-                    th:each="pageNumber1 : ${pageNumber}">
-                    <a class="page-link"
-                       th:href="@{/document(limit=10, page=${pageNumber1}, sorting=${docsResp.isNew()==true} ? new:arxive)}"
-                       th:text="${pageNumber1}"></a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<div class="nav_margin">
+    <nav aria-label="...">
+        <ul th:if="${docsResp.getTotalPage() > 0}" class="pagination pagination-lg">
+            <li aria-current="page" class="page-item " th:classappend="${pageNumber1==docsResp.number + 1} ? active"
+                th:each="pageNumber1 : ${pageNumber}">
+                <a class="page-link"
+                   th:href="@{/document(limit=10, page=${pageNumber1}, sorting=${docsResp.isNew()==true} ? new:arxive)}"
+                   th:text="${pageNumber1}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
-    <div class="container">
-        <div class="row h5 mb-5">
-            <div class="col">
-                Дата добавления
-            </div>
-            <div class="col">
-                Дата документа
-            </div>
-            <div class="col">
-                Номер документа
-            </div>
-            <div class="col">
-                Сумма документа
-            </div>
-            <div class="col">
-                Поставщик
-            </div>
-            <div class="col" th:text="${docsResp.isNew()==true } ? Автор:Обработал">
-            </div>
-            <div th:text="${docsResp.isNew()==false } ? 'Дата обработки'" th:if="${docsResp.isNew()==false}" class="col">
-
-            </div>
+<div class="container">
+    <div class="row h5 mb-5 font-bold">
+        <div class="col"> <p>Дата добавления</p></div>
+        <div class="col">Дата</div>
+        <div class="col">Номер</div>
+        <div class="col">Сумма</div>
+        <div class="col">Поставщик</div>
+        <div class="col" th:text="${docsResp.isNew()==true } ? Автор:Обработал">
+        </div>
+        <div th:text="${docsResp.isNew()==false } ? 'Дата обработки'" th:if="${docsResp.isNew()==false}" class="col">
 
         </div>
-        <a class="link_" th:each="doc, state :${docsResp.getDocuments()}"
-           th:href="'http://localhost:8080/detail/'+${doc.id}">
-            <div class="row">
-                <div class="col mb-3" th:text="${#temporals.format(doc.getDateCreate,'dd.MM.yyyy HH:mm')}">
-                </div>
-                <div class="col" th:text="${#temporals.format(doc.getDateDoc,'dd.MM.yyyy HH:mm')}">
-                </div>
-                <div class="col" th:text="${doc.getNomerDoc()}">
-                </div>
-                <div class="col" th:text="${doc.getSum()}">
-                </div>
-                <div class="col" th:text="${doc.getSupplier()}">
-                </div>
-                <div class="col" th:text="${docsResp.isNew()==true } ? ${doc.getAutor.getName()}:${doc.getUserLastChange().getName()}">
-                </div>
-                <div th:text="${docsResp.isNew()==false } ? ${#temporals.format(doc.getDateLastEdit(),'dd.MM.yyyy HH:mm')}"
-                     th:if="${docsResp.isNew()==false}" class="col">
 
-                </div>
+    </div>
+    <a class="link_" th:each="doc, state :${docsResp.getDocuments()}"
+       th:href="'/document/'+${doc.id}">
+        <div class="row">
+            <div class="col mb-3" th:text="${#temporals.format(doc.getDateCreate,'dd.MM.yyyy HH:mm')}">
             </div>
-        </a>
-    </div>
+            <div class="col" th:text="${#temporals.format(doc.getDateDoc,'dd.MM.yyyy')}">
+            </div>
+            <div class="col" th:text="${doc.getNomerDoc()}">
+            </div>
+            <div class="col" th:text="${doc.getSum()}">
+            </div>
+            <div class="col" th:text="${doc.getSupplier()}">
+            </div>
+            <div class="col"
+                 th:text="${docsResp.isNew()==true } ? ${doc.getAutor}:${doc.getUserLastChange()}">
+            </div>
+            <div th:text="${docsResp.isNew()==false } ? ${#temporals.format(doc.getDateLastEdit(),'dd.MM.yyyy HH:mm')}"
+                 th:if="${docsResp.isNew()==false}" class="col">
 
-    <div class="body_margin">
+            </div>
+        </div>
+    </a>
+</div>
 
-    </div>
+<div class="body_margin">
+
+</div>
 
 
-    </body>
+</body>
 </html>
