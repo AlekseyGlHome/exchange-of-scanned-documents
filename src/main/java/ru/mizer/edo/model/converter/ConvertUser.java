@@ -11,7 +11,7 @@ public class ConvertUser {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .shop(user.getShop())
+                .isModerator(user.getIsModerator())
                 .build();
     }
 }

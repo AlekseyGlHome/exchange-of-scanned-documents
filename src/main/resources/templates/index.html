@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Внутренний документооборот 'ЭДО'</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
 </head>
 <body>
+<div th:replace="fragments/header :: header"/>
+
 <div class="h1_margin">
     <H1>Внутренний документооборот 'ЭДО 1.0'</H1>
 </div>
@@ -42,7 +47,7 @@
 </div>
 
 <div class="container">
-    <div class="row h5 mb-5 font-bold">
+    <div class="row h5 mb-3 font-bold">
         <div class="col"> <p>Дата добавления</p></div>
         <div class="col">Дата</div>
         <div class="col">Номер</div>
@@ -78,6 +83,8 @@
         </div>
     </a>
 </div>
+
+
 
 <div class="body_margin">
 

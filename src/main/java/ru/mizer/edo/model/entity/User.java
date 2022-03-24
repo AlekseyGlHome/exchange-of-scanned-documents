@@ -3,6 +3,7 @@ package ru.mizer.edo.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.mizer.edo.security.Role;
 
 import javax.persistence.*;
 
@@ -26,8 +27,12 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
 
-    @Column(name = "shop")
-    private String shop;
+    @Column(name = "is_moderator", nullable = false)
+    private Boolean isModerator = false;
 
+
+    public Role getRole() {
+        return isModerator == true ? Role.MODERATOR : Role.USER;
+    }
 
 }

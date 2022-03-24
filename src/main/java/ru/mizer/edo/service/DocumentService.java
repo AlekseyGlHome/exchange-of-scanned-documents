@@ -22,22 +22,37 @@ public class DocumentService {
     private final ConvertDocument convertDocument;
     private final UserService userService;
 
-    public DocResponse findAll(int page, int limit, String sorting) {
-        PageRequest pageRequest = PageRequest.of(page - 1, limit);//getPageRequest(offset, limit);
+    public DocResponse findAll(int page, int limit, String sorting, String userName) throws NotFoundException {
+        User user = userService.findByName(userName).orElseThrow(()->new NotFoundException("User not found"));
         Page<Document> documents;
-        switch (sorting.toLowerCase()) {
-            case "new":
-                documents = documentRepository.findByIsDoneFalseOrderByDateCreateDesc(pageRequest);
-                break;
-            default:
-                documents = documentRepository.findByIsDoneTrueOrderByDateLastEditDesc(pageRequest);
-                break;
-
+        PageRequest pageRequest = PageRequest.of(page - 1, limit);//getPageRequest(offset, limit);
+        if (user.getIsModerator()){
+            documents = selectDocumentsAllUser(sorting, pageRequest);
+        }else {
+            documents = selectDocumentsByUser(sorting, user, pageRequest);
         }
 
         Collection<DocumentDto> documentDtos = documents.stream().map(convertDocument::DocumentToDto).toList();
 
         return new DocResponse(documents.getTotalPages(), documents.getNumber(), documentDtos, sorting.equals("new")==true ? true : false);
+    }
+
+    private Page<Document> selectDocumentsByUser(String sorting, User user, PageRequest pageRequest){
+        switch (sorting.toLowerCase()) {
+            case "new":
+                return documentRepository.findByIsDoneFalseAndAutorIdOrderByDateCreateDesc(user.getId(), pageRequest);
+            default:
+                return documentRepository.findByIsDoneTrueAndAutorIdOrderByDateLastEditDesc(user.getId(), pageRequest);
+        }
+    }
+
+    private Page<Document> selectDocumentsAllUser(String sorting, PageRequest pageRequest){
+        switch (sorting.toLowerCase()) {
+            case "new":
+                return documentRepository.findByIsDoneFalseOrderByDateCreateDesc(pageRequest);
+            default:
+                return documentRepository.findByIsDoneTrueOrderByDateLastEditDesc(pageRequest);
+        }
     }
 
     public DocumentDto findById(int id) throws NotFoundException {
@@ -47,14 +62,14 @@ public class DocumentService {
 
     }
 
-    public void saveDocument(DocumentDto documentDto) throws NotFoundException {
+    public void saveDocument(DocumentDto documentDto, String userName ) throws NotFoundException {
+        User user = userService.findByName(userName).orElseThrow(()->new NotFoundException("User not found"));
         Document document;
         if (documentDto.getId()!=null) {
             document = documentRepository.getById(documentDto.getId());
 
         }else {
             document = new Document();
-            User user = userService.findByName("Пользователь 1");
             document.setAutor(user);
             document.setUserLastChange(user);
             document.setDateCreate(LocalDateTime.now());
@@ -65,6 +80,7 @@ public class DocumentService {
         document.setIsDone(documentDto.getIsDone());
         document.setSum(documentDto.getSum());
         document.setDateLastEdit(LocalDateTime.now());
+        document.setUserLastChange(user);
         documentRepository.save(document);
     }
 

@@ -7,8 +7,8 @@
 
     <changeSet id="0005" author="AlekseyGl">
         <sql>
-            INSERT INTO users (NAME, PASSWORD, IS_ACTIVE, SHOP)
-            VALUES ('Пользователь 1', '111', 1, 'Офис');
+            INSERT INTO users (NAME, PASSWORD, IS_ACTIVE, IS_MODERATOR)
+            VALUES ('Пользователь 1', '$2y$12$r7Dwx/YVT9yc1CHpR8Pw2uWFRfU/vxElp373rTdBkI2WSqJEWpl5C', 1, 0);
             INSERT INTO documents (DATE_CREATE, DATE_DOC, SUM, NOMER_DOC, SUPPLIER, IS_DONE, AUTOR_ID,
                                        USER_ID_LAST_CHANGE, DATE_LAST_EDIT)
             VALUES ('2022-03-22 20:34:00', '2022-03-22', 3500.0,'A445', 'Поставщик', 0,

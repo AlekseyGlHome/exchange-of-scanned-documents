@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Детализация документа</title>
@@ -8,6 +10,7 @@
     <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
+    <div th:replace="fragments/header :: header"/>
     <div class="h1_margin">
         <h1 th:text="${doc.getNomerDoc()==null} ?  'Новый документ':'Детализация документа № ' + ${doc.getNomerDoc()}" ></h1>
     </div>
@@ -16,16 +19,21 @@
         <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-4">Добавить скан документа</a>
     </div>
 
-    <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post">>
-        <button type="submit" class="btn btn-primary form_elem">Записать документ</button>
+    <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post">
+        <button type="submit" class="btn btn-primary form_elem" th:disabled="${doc.isDone==true}">Записать документ</button>
         <br>
         <div class="row " >
             <div class="col">
-                <div class="form-check form_elem">
-                    <input type="hidden" class="form-control" placeholder="user" th:field="*{id}">
-<!--                    <input type="hidden" class="form-control" placeholder="user" th:field="*{userLastChange}">-->
+                <input type="hidden" class="form-control" placeholder="id" th:field="*{id}">
+                <div class="form-check form_elem" th:if="${user.isModerator()==true}">
                     <label class="form-check-label">
                         <input class="form-check-input" type="checkbox" th:field="*{isDone}"> Обработан
+                    </label>
+                </div>
+                <div class="form-check form_elem" th:if="${user.isModerator()==false}">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="hidden" th:field="*{isDone}" readonly>
+                        <b><p th:text="${doc.isDone==true}? Обработан "></p></b>
                     </label>
                 </div>
             </div>>
@@ -33,25 +41,29 @@
         <div class="row input_margin">
             <div class="col">
                 <label>Дата документа</label>
-                <input type="datetime" class="form-control" placeholder="Дата" th:field="*{dateDoc}">
+                <input type="datetime" class="form-control" placeholder="Дата" th:field="*{dateDoc}"
+                       th:readonly="${doc.isDone==true}">
             </div>
             <div class="col">
                 <label>Номер документа</label>
-                <input type="text" class="form-control" placeholder="Номер" th:field="*{nomerDoc}">
+                <input type="text" class="form-control" placeholder="Номер" th:field="*{nomerDoc}"
+                       th:readonly="${doc.isDone==true}">
             </div>
             <div class="col">
                 <label>Сумма</label>
-                <input type="text" class="form-control" placeholder="Сумма" th:field="*{sum}">
+                <input type="number" step="any" class="form-control" placeholder="Сумма" th:field="*{sum}"
+                       th:readonly="${doc.isDone==true}">
             </div>
             <div class="col">
                 <label>Поставщик</label>
-                <input type="text" class="form-control" placeholder="Поставщик" th:field="*{supplier}">
+                <input type="text" class="form-control" placeholder="Поставщик" th:field="*{supplier}"
+                       th:readonly="${doc.isDone==true}">
             </div>
         </div>
 
         <div class="nav_margin"></div>
 
-        <div class="row input_margin">
+        <div class="row input_margin" th:if="${doc.getNomerDoc()!=null}">
             <div class="col">
                 <label>Дата Добавления</label>
                 <input class="form-control" type="datetime" placeholder="Создали" th:field="*{dateCreate}" readonly>
@@ -61,11 +73,11 @@
                 <input class="form-control" type="text" placeholder="Автор" th:field="*{autor}" readonly>
             </div>
             <div class="col">
-                <label>Последнее изменение</label>
+                <label>Дата изменения</label>
                 <input class="form-control" type="datetime" placeholder="Последнее изменение" th:field="*{dateLastEdit}" readonly>
             </div>
             <div class="col">
-                <label>Измененил</label>
+                <label>Автор Изменения</label>
                 <input class="form-control" type="text" placeholder="Измененил" th:field="*{userLastChange}" readonly>
             </div>
 
