@@ -11,9 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.mizer.edo.api.response.DocResponse;
 import ru.mizer.edo.exception.NotFoundException;
 import ru.mizer.edo.model.dto.DocumentDto;
+import ru.mizer.edo.model.dto.FilePathDto;
 import ru.mizer.edo.model.dto.UserDto;
 import ru.mizer.edo.model.entity.User;
 import ru.mizer.edo.service.DocumentService;
+import ru.mizer.edo.service.FilePathService;
 import ru.mizer.edo.service.UserService;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,6 +37,7 @@ import java.util.stream.IntStream;
 public class DocumentController {
     private final DocumentService docService;
     private final UserService userService;
+    private final FilePathService filePathService;
 
     @GetMapping()
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
@@ -57,7 +61,9 @@ public class DocumentController {
     public String findById(Principal principal, @PathVariable int id, Model model) throws NotFoundException {
         UserDto user = userService.getUserByName(principal.getName());
         DocumentDto documentDto = docService.findById(id);
+        Collection<FilePathDto> filesPathDto = filePathService.getFilesByDocumentId(documentDto.getId());
         model.addAttribute("doc", documentDto);
+        model.addAttribute("files",filesPathDto);
         model.addAttribute("user", user);
         return "detailDocument";
     }

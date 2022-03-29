@@ -3,3 +3,4 @@ https://getbootstrap.su/docs/5.0/content/images/
 https://mdbootstrap.com/docs/b4/jquery/forms/file-input/
 https://attacomsian.com/blog/spring-boot-thymeleaf-file-upload
 https://leodev.ru/blog/spring-security/spring-boot-spring-security-thymeleaf-example/#.Yjwv8Z5BztR
+https://www.codejava.net/frameworks/spring-boot/spring-boot-file-upload-tutorial

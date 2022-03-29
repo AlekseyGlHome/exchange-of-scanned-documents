@@ -19,7 +19,9 @@ import ru.mizer.edo.model.entity.FilesPath;
 import ru.mizer.edo.model.entity.User;
 import ru.mizer.edo.repository.DocumentRepository;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -102,11 +104,15 @@ public class DocumentService {
 
 
     private void uploadFiles(Document doc, MultipartFile[] files) {
-        final String UPLOAD_DIR = "./uploads/";
-        if (files.length <= 0) {
+        final String UPLOAD_DIR = "./src/main/resources/static/uploads/";
+        final String STATIC_DIR = "./uploads/";
+        if (files.length <= 0||files[0].isEmpty()) {
             return;
         }
         for (MultipartFile file : files) {
+
+            File mkdir = new File(UPLOAD_DIR);
+            mkdir.mkdirs();
             String fileNewName = UUID.randomUUID().toString().replaceAll("-", "");
             String fileOrigName = file.getOriginalFilename();
             String ext = fileOrigName.substring(fileOrigName.length()-3);
@@ -115,7 +121,7 @@ public class DocumentService {
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 FilesPath filesPath = new FilesPath();
                 filesPath.setDoc(doc);
-                filesPath.setPath(path.toString());
+                filesPath.setPath(STATIC_DIR+path.getFileName());
                 filePathService.addFile(filesPath);
             } catch (IOException e) {
                 e.printStackTrace();

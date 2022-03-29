@@ -15,20 +15,32 @@
     <h1 th:text="${doc.getNomerDoc()==null} ?  'Новый документ':'Детализация документа № ' + ${doc.getNomerDoc()}"></h1>
 </div>
 <div>
-    <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-4">Назад</a>
+    <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-3">Назад</a>
 </div>
 
 <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post" enctype="multipart/form-data">
 
-    <section class="my-5">
+    <section class="my-2">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <h2>Загрузить файл</h2>
                     <div class="form-group">
-                        <input type="file" name="file" multiple class="form-control-file">
+                        <input type="file" name="file" multiple class="form-control-file" accept=".jpg,.jpeg,.png">
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                <div th:each="file :${files}">
+                    <img
+                            class="w-100 shadow-1-strong rounded mb-4"
+                            alt="Boat on Calm Water"
+                            th:src="@{${file.path}}"
+                    />
+                </div>
+
             </div>
         </div>
     </section>
