@@ -14,6 +14,6 @@ public class FilePathDto {
     private String path;
 
     public String getPath(){
-        return "/uploads/" + path;
+        return "."+path;
     }
 }

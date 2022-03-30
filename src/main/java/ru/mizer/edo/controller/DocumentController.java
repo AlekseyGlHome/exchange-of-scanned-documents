@@ -83,7 +83,7 @@ public class DocumentController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
-    public String seveDoc(Principal principal, DocumentDto documentDto, @RequestParam("file") MultipartFile[] files) throws NotFoundException {
+    public String seveDoc(Principal principal, DocumentDto documentDto, @RequestParam("file") MultipartFile[] files) throws NotFoundException, IOException {
         docService.saveDocument(documentDto, principal.getName(), files);
         return "redirect:/";
     }

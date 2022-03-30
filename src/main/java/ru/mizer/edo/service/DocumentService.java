@@ -38,8 +38,8 @@ public class DocumentService {
     private final ConvertDocument convertDocument;
     private final UserService userService;
     private final FilePathService filePathService;
-    @Value("${upload_file}")
-    private String UPLOAD_DIR;
+//    @Value("${upload_file}")
+//    private String UPLOAD_DIR;
 
     public DocResponse findAll(int page, int limit, String sorting, String userName) throws NotFoundException {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
@@ -81,7 +81,7 @@ public class DocumentService {
 
     }
 
-    public void saveDocument(DocumentDto documentDto, String userName, MultipartFile[] files) throws NotFoundException {
+    public void saveDocument(DocumentDto documentDto, String userName, MultipartFile[] files) throws NotFoundException, IOException {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
         Document document;
         if (documentDto.getId() != null) {
@@ -101,40 +101,8 @@ public class DocumentService {
         document.setDateLastEdit(LocalDateTime.now());
         document.setUserLastChange(user);
         documentRepository.save(document);
-        uploadFiles(document, files);
+        filePathService.uploadFiles(document, files);
 
     }
 
-
-    private void uploadFiles(Document doc, MultipartFile[] files) {
-
-        //final String UPLOAD_DIR = "./uploads/";
-        if (files.length <= 0||files[0].isEmpty()) {
-            return;
-        }
-        for (MultipartFile file : files) {
-
-            File mkdir = new File(UPLOAD_DIR);
-            mkdir.mkdirs();
-            String fileNewName = UUID.randomUUID().toString().replaceAll("-", "");
-            String fileOrigName = file.getOriginalFilename();
-            int index = fileOrigName.lastIndexOf('.');
-            String ext = fileOrigName.substring(index+1);
-            try {
-                Path path = Paths.get(UPLOAD_DIR + fileNewName+"."+ext);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                FilesPath filesPath = new FilesPath();
-                filesPath.setDoc(doc);
-                filesPath.setPath(path.getFileName().toString());
-                filePathService.addFile(filesPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String randomPath(int numberOfLetters){
-
-        return "";
-    }
 }
