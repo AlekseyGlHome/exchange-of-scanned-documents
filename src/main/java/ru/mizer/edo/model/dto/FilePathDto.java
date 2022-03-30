@@ -12,4 +12,8 @@ public class FilePathDto {
     private Integer id;
     private DocumentDto doc;
     private String path;
+
+    public String getPath(){
+        return "/uploads/" + path;
+    }
 }

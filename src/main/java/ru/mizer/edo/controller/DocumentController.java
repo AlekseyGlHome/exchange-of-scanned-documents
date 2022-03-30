@@ -88,5 +88,11 @@ public class DocumentController {
         return "redirect:/";
     }
 
+    @GetMapping("/file/delete/{id}")
+    @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
+    public String deleteFile(@PathVariable int id){
+        int doc_id=filePathService.delete(id);
+        return "redirect:/document/"+doc_id;
+    }
 
 }

@@ -7,7 +7,6 @@
     <title>Детализация документа</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-    <script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
 <div th:replace="fragments/header :: header"/>
@@ -17,11 +16,12 @@
 <div>
     <a href="/document?limit=10&page=1&sorting=new" class="btn btn-primary my-3 mx-3">Назад</a>
 </div>
+<hr class="mt-2 mb-2">
+
 
 <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post" enctype="multipart/form-data">
-
     <section class="my-2">
-        <div class="container">
+        <div class="container" th:if="${doc.isDone==false}">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <h2>Загрузить файл</h2>
@@ -29,18 +29,6 @@
                         <input type="file" name="file" multiple class="form-control-file" accept=".jpg,.jpeg,.png">
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                <div th:each="file :${files}">
-                    <img
-                            class="w-100 shadow-1-strong rounded mb-4"
-                            alt="Boat on Calm Water"
-                            th:src="@{${file.path}}"
-                    />
-                </div>
-
             </div>
         </div>
     </section>
@@ -109,6 +97,25 @@
     <br>
     <button type="submit" class="btn btn-primary form_elem" th:disabled="${doc.isDone==true}">Записать документ</button>
 </form>
+
+
+<div class="container">
+    <hr class="mt-2 mb-2">
+    <div class="row text-center text-lg-left">
+        <div class="col-lg-3 col-md-4 col-6" th:each="file :${files}">
+            <a th:href="'/document/file/delete/'+${file.id}" class="btn btn-primary" th:classappend="${doc.isDone==true}? 'btn-lg disabled'" th:text="Удалить"></a>
+            <a th:href="@{${file.path}}" class="d-block mb-4 h-100" target="_blank">
+                <img class="img-fluid img-thumbnail" th:src="@{${file.path}}" alt="">
+
+            </a>
+
+        </div>
+    </div>
+    <hr class="mt-2 mb-2">
+</div>
 <br>
+
+<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
 </body>
 </html>

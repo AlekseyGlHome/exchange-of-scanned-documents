@@ -5,6 +5,7 @@ import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.id.GUIDGenerator;
 import org.hibernate.id.UUIDGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class DocumentService {
     private final ConvertDocument convertDocument;
     private final UserService userService;
     private final FilePathService filePathService;
+    @Value("${upload_file}")
+    private String UPLOAD_DIR;
 
     public DocResponse findAll(int page, int limit, String sorting, String userName) throws NotFoundException {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
@@ -104,8 +107,8 @@ public class DocumentService {
 
 
     private void uploadFiles(Document doc, MultipartFile[] files) {
-        final String UPLOAD_DIR = "./src/main/resources/static/uploads/";
-        final String STATIC_DIR = "./uploads/";
+
+        //final String UPLOAD_DIR = "./uploads/";
         if (files.length <= 0||files[0].isEmpty()) {
             return;
         }
@@ -115,13 +118,14 @@ public class DocumentService {
             mkdir.mkdirs();
             String fileNewName = UUID.randomUUID().toString().replaceAll("-", "");
             String fileOrigName = file.getOriginalFilename();
-            String ext = fileOrigName.substring(fileOrigName.length()-3);
+            int index = fileOrigName.lastIndexOf('.');
+            String ext = fileOrigName.substring(index+1);
             try {
                 Path path = Paths.get(UPLOAD_DIR + fileNewName+"."+ext);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 FilesPath filesPath = new FilesPath();
                 filesPath.setDoc(doc);
-                filesPath.setPath(STATIC_DIR+path.getFileName());
+                filesPath.setPath(path.getFileName().toString());
                 filePathService.addFile(filesPath);
             } catch (IOException e) {
                 e.printStackTrace();
