@@ -38,8 +38,6 @@ public class DocumentService {
     private final ConvertDocument convertDocument;
     private final UserService userService;
     private final FilePathService filePathService;
-//    @Value("${upload_file}")
-//    private String UPLOAD_DIR;
 
     public DocResponse findAll(int page, int limit, String sorting, String userName) throws NotFoundException {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
@@ -86,7 +84,6 @@ public class DocumentService {
         Document document;
         if (documentDto.getId() != null) {
             document = documentRepository.getById(documentDto.getId());
-
         } else {
             document = new Document();
             document.setAutor(user);
