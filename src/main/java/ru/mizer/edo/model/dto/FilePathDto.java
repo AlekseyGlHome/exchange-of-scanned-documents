@@ -14,6 +14,6 @@ public class FilePathDto {
     private String path;
 
     public String getPath(){
-        return "/img/"+path;
+        return "/img_upload/"+path;
     }
 }

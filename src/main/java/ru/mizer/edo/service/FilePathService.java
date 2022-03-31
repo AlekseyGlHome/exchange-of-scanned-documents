@@ -1,6 +1,7 @@
 package ru.mizer.edo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +11,8 @@ import ru.mizer.edo.model.entity.Document;
 import ru.mizer.edo.model.entity.FilesPath;
 import ru.mizer.edo.repository.FileRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -21,6 +24,7 @@ public class FilePathService {
 
     @Value("${upload_file}")
     private String uploadDir;
+
 
     private final FileRepository fileRepository;
     private final ConvertFilePath convertFilePath;
@@ -52,13 +56,31 @@ public class FilePathService {
         }
         for (MultipartFile file : files) {
             String uuidNewNameFile = UUID.randomUUID().toString();
-            String resultFileName = uuidNewNameFile + "." + file.getOriginalFilename();
+            String ext="";
+            if (file.getContentType().startsWith("image/")){
+                ext = file.getContentType().replaceAll("image/","");
+            }else if(file.getContentType().startsWith("application/")){
+                ext = file.getContentType().replaceAll("application/","");
+            }
+            // resize 280 * ?
+            String resultFileName = uuidNewNameFile + "." + ext;
             file.transferTo(new File(pathDir + "/" + resultFileName));
             FilesPath filesPath = new FilesPath();
             filesPath.setDoc(doc);
             filesPath.setPath(randomPath + resultFileName);
             addFile(filesPath);
         }
+    }
+
+    private void resizeImg(String fileName, BufferedImage image) throws IOException {
+        int NEW_WIDTH = 300;
+        String dstFolder="";
+        int newHeight = (int) Math.round(
+                image.getHeight() / (image.getWidth() / (double) NEW_WIDTH)
+        );
+        BufferedImage newImage = Scalr.resize(image, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, NEW_WIDTH, newHeight);
+        File newFile = new File(dstFolder + "/" + fileName);
+        ImageIO.write(newImage, "jpg", newFile);
     }
 
     private String randomPathGeneration(int numberOfLetters) {

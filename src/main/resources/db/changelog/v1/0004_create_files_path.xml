@@ -9,12 +9,13 @@
         <sql>
             CREATE TABLE `files_path`
             (
-                `id`     int          NOT NULL AUTO_INCREMENT,
-                `doc_id` int          NOT NULL,
-                `path`   varchar(250) NOT NULL,
+                `id`        int          NOT NULL AUTO_INCREMENT,
+                `doc_id`    int          NOT NULL,
+                `path`      varchar(250) NOT NULL,
+                `path_mini` varchar(250) NOT NULL,
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `files_path_id_IDX` (`id`) USING BTREE,
-                KEY      `files_path_FK` (`doc_id`),
+                KEY         `files_path_FK` (`doc_id`),
                 CONSTRAINT `files_path_FK` FOREIGN KEY (`doc_id`) REFERENCES `documents` (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
         </sql>
