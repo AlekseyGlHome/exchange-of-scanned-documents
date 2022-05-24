@@ -24,7 +24,7 @@ public class FilesPath {
     @Column(name = "path", nullable = false, length = 250)
     private String path;
 
-    @Column(name = "path_mini",nullable = false, length = 250)
+    @Column(name = "path_mini",nullable = true, length = 250)
     private String pathMini;
 
 }

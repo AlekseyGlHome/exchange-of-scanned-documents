@@ -88,18 +88,14 @@ public class DocumentService {
             document = new Document();
             document.setAutor(user);
             document.setUserLastChange(user);
-            document.setDateCreate(LocalDateTime.now());
         }
         document.setDateDoc(documentDto.getDateDoc());
         document.setNomerDoc(documentDto.getNomerDoc());
         document.setSupplier(documentDto.getSupplier());
         document.setIsDone(documentDto.getIsDone());
         document.setSum(documentDto.getSum());
-        document.setDateLastEdit(LocalDateTime.now());
         document.setUserLastChange(user);
         documentRepository.save(document);
         filePathService.uploadFiles(document, files);
-
     }
-
 }

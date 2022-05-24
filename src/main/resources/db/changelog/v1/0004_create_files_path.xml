@@ -12,7 +12,7 @@
                 `id`        int          NOT NULL AUTO_INCREMENT,
                 `doc_id`    int          NOT NULL,
                 `path`      varchar(250) NOT NULL,
-                `path_mini` varchar(250) NOT NULL,
+                `path_mini` varchar(250) DEFAULT NULL,
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `files_path_id_IDX` (`id`) USING BTREE,
                 KEY         `files_path_FK` (`doc_id`),

@@ -47,4 +47,14 @@ public class Document {
 
     @Column(name = "date_last_edit")
     private LocalDateTime dateLastEdit;
+
+    @PrePersist
+    private void onCreate(){
+        setDateCreate(LocalDateTime.now());
+        setDateLastEdit(LocalDateTime.now());
+    }
+    @PreUpdate
+    private void onUpdate(){
+        setDateLastEdit(LocalDateTime.now());
+    }
 }
