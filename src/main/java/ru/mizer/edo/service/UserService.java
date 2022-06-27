@@ -20,7 +20,7 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    public UserDto getUserByName(String name) throws NotFoundException {
+    public UserDto getUserByName(String name) {
         return convertUser.userToDto(userRepository.findByName(name).orElseThrow(()-> new NotFoundException("User not found")));
     }
 }

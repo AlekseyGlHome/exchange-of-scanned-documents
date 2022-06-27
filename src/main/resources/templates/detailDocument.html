@@ -95,7 +95,7 @@
 
     </div>
     <br>
-    <button type="submit" class="btn btn-primary form_elem" th:disabled="${doc.isDone==true}">Записать документ</button>
+    <button type="submit" class="btn btn-primary form_elem" th:disabled="${doc.isDone==true && user.isModerator()==false}">Записать документ</button>
 </form>
 
 

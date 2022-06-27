@@ -39,7 +39,7 @@ public class DocumentService {
     private final UserService userService;
     private final FilePathService filePathService;
 
-    public DocResponse findAll(int page, int limit, String sorting, String userName) throws NotFoundException {
+    public DocResponse findAll(int page, int limit, String sorting, String userName) {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
         Page<Document> documents;
         PageRequest pageRequest = PageRequest.of(page - 1, limit);//getPageRequest(offset, limit);
@@ -72,14 +72,14 @@ public class DocumentService {
         }
     }
 
-    public DocumentDto findById(int id) throws NotFoundException {
+    public DocumentDto findById(int id) {
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Документ не найден"));
         return convertDocument.DocumentToDto(document);
 
     }
 
-    public void saveDocument(DocumentDto documentDto, String userName, MultipartFile[] files) throws NotFoundException, IOException {
+    public void saveDocument(DocumentDto documentDto, String userName, MultipartFile[] files) throws IOException {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
         Document document;
         if (documentDto.getId() != null) {

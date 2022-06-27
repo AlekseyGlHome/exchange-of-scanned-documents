@@ -44,7 +44,7 @@ public class DocumentController {
     public String document(Principal principal, Model model,
                            @RequestParam(defaultValue = "1", value = "page") int page,
                            @RequestParam(defaultValue = "10", value = "limit") int limit,
-                           @RequestParam(defaultValue = "new", value = "sorting") String sorting) throws NotFoundException {
+                           @RequestParam(defaultValue = "new", value = "sorting") String sorting) {
         DocResponse docResponse = docService.findAll(page, limit, sorting, principal.getName());
         model.addAttribute("docsResp", docResponse);
         int totalPages = docResponse.getTotalPage();
@@ -58,19 +58,19 @@ public class DocumentController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
-    public String findById(Principal principal, @PathVariable int id, Model model) throws NotFoundException {
+    public String findById(Principal principal, @PathVariable int id, Model model) {
         UserDto user = userService.getUserByName(principal.getName());
         DocumentDto documentDto = docService.findById(id);
         Collection<FilePathDto> filesPathDto = filePathService.getFilesByDocumentId(documentDto.getId());
         model.addAttribute("doc", documentDto);
-        model.addAttribute("files",filesPathDto);
+        model.addAttribute("files", filesPathDto);
         model.addAttribute("user", user);
         return "detailDocument";
     }
 
     @GetMapping("/new")
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
-    public String newDoc(Principal principal, Model model) throws NotFoundException {
+    public String newDoc(Principal principal, Model model) {
         UserDto user = userService.getUserByName(principal.getName());
         DocumentDto documentDto = DocumentDto.builder()
                 .dateDoc(LocalDate.now())
@@ -83,16 +83,16 @@ public class DocumentController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
-    public String seveDoc(Principal principal, DocumentDto documentDto, @RequestParam("file") MultipartFile[] files) throws NotFoundException, IOException {
+    public String seveDoc(Principal principal, DocumentDto documentDto, @RequestParam("file") MultipartFile[] files) throws IOException {
         docService.saveDocument(documentDto, principal.getName(), files);
         return "redirect:/";
     }
 
     @GetMapping("/file/delete/{id}")
     @PreAuthorize("hasAuthority('user:moderate')||hasAuthority('user:write')")
-    public String deleteFile(@PathVariable int id){
-        int doc_id=filePathService.delete(id);
-        return "redirect:/document/"+doc_id;
+    public String deleteFile(@PathVariable int id) {
+        int doc_id = filePathService.delete(id);
+        return "redirect:/document/" + doc_id;
     }
 
 }
