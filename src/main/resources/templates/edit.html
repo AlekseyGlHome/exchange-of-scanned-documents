@@ -1,0 +1,45 @@
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Редактирование пользователя</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<!--    <div th:replace="fragments/header :: header"/>-->
+    <div class="container">
+        <div>
+            <a href="/user/list" class="btn btn-primary my-3 mx-3">Назад</a>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="container">
+            <form class="form-horizontal" th:action="@{'/user/edit'}" th:object="${editUser}" method="post">
+                <div class="form-group">
+                    <input type="hidden" class="form-control" placeholder="id" th:field="*{id}">
+                    <p>Наименование</p>
+                    <input class="form-control" type="text" th:field="*{name}" maxlength="100"/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    <p>Пароль</p>
+                    <input class="form-control" type="hidden" th:field="*{password}" maxlength="255" id="password"/>
+                    <input class="form-control" type="password" th:field="*{newPass}" maxlength="255" id="newPass"/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+                    <div class="form-check form_elem">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:field="*{isActive}"> Активный
+                        </label>
+                    </div>
+                    <div class="form-check form_elem">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" th:field="*{isModerator}"> Модератор
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Записать</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,6 +3,8 @@ package ru.mizer.edo.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.mizer.edo.model.dto.NewUserDto;
+import ru.mizer.edo.model.dto.UserDto;
 import ru.mizer.edo.security.Role;
 
 import javax.persistence.*;
@@ -30,6 +32,13 @@ public class User {
     @Column(name = "is_moderator", nullable = false)
     private Boolean isModerator = false;
 
+    public User(NewUserDto newUserDto) {
+        this.id = newUserDto.getId();
+        this.name = newUserDto.getName();
+        this.password = newUserDto.getPassword();
+        this.isActive = newUserDto.getIsActive();
+        this.isModerator = newUserDto.getIsModerator();
+    }
 
     public Role getRole() {
         return isModerator == true ? Role.MODERATOR : Role.USER;

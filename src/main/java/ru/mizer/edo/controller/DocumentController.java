@@ -33,7 +33,7 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("document")
+@RequestMapping("/document")
 public class DocumentController {
     private final DocumentService docService;
     private final UserService userService;
@@ -46,12 +46,14 @@ public class DocumentController {
                            @RequestParam(defaultValue = "10", value = "limit") int limit,
                            @RequestParam(defaultValue = "new", value = "sorting") String sorting) {
         DocResponse docResponse = docService.findAll(page, limit, sorting, principal.getName());
+        UserDto user = userService.getUserByName(principal.getName());
         model.addAttribute("docsResp", docResponse);
+        model.addAttribute("user", user);
         int totalPages = docResponse.getTotalPage();
         if (totalPages > 0) {
             List<Integer> pageNumber = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumber", pageNumber);
-            model.addAttribute("user", principal);
+
         }
         return "index";
     }

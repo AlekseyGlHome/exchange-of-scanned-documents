@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.mizer.edo.api.response.DocResponse;
 import ru.mizer.edo.exception.NotFoundException;
 import ru.mizer.edo.model.converter.ConvertDocument;
+import ru.mizer.edo.model.converter.ConvertUser;
 import ru.mizer.edo.model.dto.DocumentDto;
 import ru.mizer.edo.model.entity.Document;
 import ru.mizer.edo.model.entity.FilesPath;
@@ -38,6 +39,7 @@ public class DocumentService {
     private final ConvertDocument convertDocument;
     private final UserService userService;
     private final FilePathService filePathService;
+    private final ConvertUser convertUser;
 
     public DocResponse findAll(int page, int limit, String sorting, String userName) {
         User user = userService.findByName(userName).orElseThrow(() -> new NotFoundException("User not found"));
@@ -51,25 +53,23 @@ public class DocumentService {
 
         Collection<DocumentDto> documentDtos = documents.stream().map(convertDocument::DocumentToDto).toList();
 
-        return new DocResponse(documents.getTotalPages(), documents.getNumber(), documentDtos, sorting.equals("new") == true ? true : false);
+        return new DocResponse(documents.getTotalPages(),
+                documents.getNumber(), documentDtos,
+                sorting.equals("new"));
     }
 
     private Page<Document> selectDocumentsByUser(String sorting, User user, PageRequest pageRequest) {
-        switch (sorting.toLowerCase()) {
-            case "new":
-                return documentRepository.findByIsDoneFalseAndAutorIdOrderByDateCreateDesc(user.getId(), pageRequest);
-            default:
-                return documentRepository.findByIsDoneTrueAndAutorIdOrderByDateLastEditDesc(user.getId(), pageRequest);
-        }
+        return switch (sorting.toLowerCase()) {
+            case "new" -> documentRepository.findByIsDoneFalseAndAutorIdOrderByDateCreateDesc(user.getId(), pageRequest);
+            default -> documentRepository.findByIsDoneTrueAndAutorIdOrderByDateLastEditDesc(user.getId(), pageRequest);
+        };
     }
 
     private Page<Document> selectDocumentsAllUser(String sorting, PageRequest pageRequest) {
-        switch (sorting.toLowerCase()) {
-            case "new":
-                return documentRepository.findByIsDoneFalseOrderByDateCreateDesc(pageRequest);
-            default:
-                return documentRepository.findByIsDoneTrueOrderByDateLastEditDesc(pageRequest);
-        }
+        return switch (sorting.toLowerCase()) {
+            case "new" -> documentRepository.findByIsDoneFalseOrderByDateCreateDesc(pageRequest);
+            default -> documentRepository.findByIsDoneTrueOrderByDateLastEditDesc(pageRequest);
+        };
     }
 
     public DocumentDto findById(int id) {

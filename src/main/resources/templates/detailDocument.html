@@ -21,7 +21,7 @@
 
 <form action="#" th:action="@{/document/save}" th:object="${doc}" method="post" enctype="multipart/form-data">
     <section class="my-2">
-        <div class="container" th:if="${doc.isDone==false}">
+        <div class="container" >
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <h2>Загрузить файл</h2>

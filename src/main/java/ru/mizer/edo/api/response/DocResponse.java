@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.mizer.edo.model.dto.DocumentDto;
+import ru.mizer.edo.model.dto.UserDto;
 
 import java.util.Collection;
 
@@ -17,4 +18,5 @@ public class DocResponse {
     private int number;
     private Collection<DocumentDto> documents;
     private boolean isNew;
+//    private UserDto user;
 }

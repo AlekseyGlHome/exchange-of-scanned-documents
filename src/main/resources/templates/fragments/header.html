@@ -10,11 +10,26 @@
 <div th:fragment="header">
     <div class="container">
         <footer>
-            © 2022 ООО "Мизер"
-            <span sec:authorize="isAuthenticated()">| Зарегистрированный пользователь:<b><span sec:authentication="name"></span></b>
-                <a th:href="@{/logout}">Выход</a>
-            </span>
-
+            <nav class="navbar navbar-light navbar navbar-expand flex-column flex-md-row bd-navbar" style="background-color: #e3f2fd;">
+                <a class="navbar-brand" th:href="@{/document}">© 2022 ООО "Мизер"</a>
+                <div class="navbar-nav-scroll">
+                    <span sec:authorize="isAuthenticated()">
+                       <ul class="navbar-nav bd-navbar-nav flex-row">
+                            <li class="nav-item">
+                                <p class="nav-link" href="#">Зарегистрированный пользователь:
+                                        <b><span sec:authentication="name"></span></b>
+                                </p>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link active"  th:href="@{/logout}">Выход</a>
+                            </li>
+                            <li class="nav-item active" th:if="${user.isModerator}==true">
+                                <a class="nav-link active" th:href="@{/user/list}">Список пользователей</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+            </nav>>
         </footer>
     </div>
 </div>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Список пользователей</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+<div>
+    <a href="/document" class="btn btn-primary my-3 mx-3">Назад</a>
+    <a href="/user/new" class="btn btn-primary my-3 mx-3">Новый пользователь</a>
+</div>
+<hr class="mt-2 mb-2">
+<div>
+    <table class="table table-bordered table-hover horizontal-align">
+        <thead>
+        <tr>
+            <th style="width: 60%">Имя</th>
+            <th style="width: 5%">Изменить</th>
+            <th style="width: 5%">Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="users : ${users}">
+            <td>
+                <p class="h4" th:text="${users.name}"></p>
+                <!--                    <p th:text="${toDo.description}"></p>-->
+            </td>
+
+            <td style="text-align: center; vertical-align: middle;">
+                <form action="#" th:action="@{'/user/{id}'(id=${users.id})}" th:method="get">
+                    <button type="submit" id="editButton" class="button_no_border">
+                        <img><i class="fa fa-edit" style="font-size:20px"></i>
+                    </button>
+                </form>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <form action="#" th:action="@{'/user/{id}'(id=${users.id})}" th:method="delete">
+                    <button type="submit" id="deleteButton" class="button_no_border">
+                        <img><i class="fa fa-trash" style="font-size:20px"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
