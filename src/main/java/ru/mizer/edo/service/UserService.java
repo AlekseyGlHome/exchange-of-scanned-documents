@@ -9,6 +9,7 @@ import ru.mizer.edo.model.converter.ConvertUser;
 import ru.mizer.edo.model.dto.NewUserDto;
 import ru.mizer.edo.model.dto.UserDto;
 import ru.mizer.edo.model.entity.User;
+import ru.mizer.edo.repository.DocumentRepository;
 import ru.mizer.edo.repository.UserRepository;
 import ru.mizer.edo.security.Util;
 
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ConvertUser convertUser;
     private final Util util;
+    private final DocumentRepository documentRepository;
 
     public long getCountByName(String name) {
         return userRepository.countByName(name);
@@ -44,7 +46,10 @@ public class UserService {
     }
 
     public void deleteById(int id) {
-        userRepository.deleteById(id);
+        if (documentRepository.countByAutorOrUserLastChange(id) == 0) {
+            userRepository.deleteById(id);
+        }
+
     }
 
     public void add(NewUserDto newUserDto) {
@@ -54,13 +59,13 @@ public class UserService {
 
     public BindingResult userVerification(NewUserDto userDto, BindingResult result) {
         User user = userRepository.getById(userDto.getId());
-        if(!user.getName().equals(userDto.getName())){
+        if (!user.getName().equals(userDto.getName())) {
             if (getCountByName(userDto.getName()) > 0) {
                 result.addError(new FieldError("user", "name", "Имя не уникально"));
             }
         }
-        if (!userDto.getNewPass().isBlank()){
-            if (userDto.getNewPass().length()<=8){
+        if (!userDto.getNewPass().isBlank()) {
+            if (userDto.getNewPass().length() <= 8) {
                 result.addError(new FieldError("user", "password", "Минимум 8 знаков"));
             }
         }
