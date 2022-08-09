@@ -69,7 +69,7 @@ public class UserController {
     @PostMapping("/edit")
     @PreAuthorize("hasAuthority('user:moderate')")
     public String edit(Principal principal, @Valid @ModelAttribute("editUser") NewUserDto newUserDto, BindingResult result) {
-        result = userService.userVerification(newUserDto, result);
+//        result = userService.userVerification(newUserDto, result);
 
         if (result.hasErrors()) {
             return "edit";

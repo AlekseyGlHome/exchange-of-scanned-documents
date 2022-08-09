@@ -22,8 +22,8 @@
                     <input class="form-control" type="text" th:field="*{name}" maxlength="100"/>
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                     <p>Пароль</p>
-                    <input class="form-control" type="hidden" th:field="*{password}" maxlength="255" id="password"/>
-                    <input class="form-control" type="password" th:field="*{newPass}" maxlength="255" id="newPass"/>
+                    <input class="form-control" type="password" th:field="*{password}" maxlength="255" id="password"/>
+<!--                    <input class="form-control" type="password" th:field="*{newPass}" maxlength="255" id="newPass"/>-->
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
                     <div class="form-check form_elem">

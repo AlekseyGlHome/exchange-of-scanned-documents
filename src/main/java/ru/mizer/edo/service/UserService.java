@@ -57,29 +57,29 @@ public class UserService {
         userRepository.save(new User(newUserDto));
     }
 
-    public BindingResult userVerification(NewUserDto userDto, BindingResult result) {
-        User user = userRepository.getById(userDto.getId());
-        if (!user.getName().equals(userDto.getName())) {
-            if (getCountByName(userDto.getName()) > 0) {
-                result.addError(new FieldError("user", "name", "Имя не уникально"));
-            }
-        }
-        if (!userDto.getNewPass().isBlank()) {
-            if (userDto.getNewPass().length() <= 8) {
-                result.addError(new FieldError("user", "password", "Минимум 8 знаков"));
-            }
-        }
-
-        return result;
-    }
+//    public BindingResult userVerification(NewUserDto userDto, BindingResult result) {
+//        User user = userRepository.getById(userDto.getId());
+//        if (!user.getName().equals(userDto.getName())) {
+//            if (getCountByName(userDto.getName()) > 0) {
+//                result.addError(new FieldError("user", "name", "Имя не уникально"));
+//            }
+//        }
+//        if (!userDto.getNewPass().isBlank()) {
+//            if (userDto.getNewPass().length() <= 8) {
+//                result.addError(new FieldError("user", "password", "Минимум 8 знаков"));
+//            }
+//        }
+//
+//        return result;
+//    }
 
     public void edit(NewUserDto newUserDto) {
         User user = userRepository.getById(newUserDto.getId());
         user.setName(newUserDto.getName());
         user.setIsActive(newUserDto.getIsActive());
         user.setIsModerator(newUserDto.getIsModerator());
-        if (!newUserDto.getNewPass().isBlank()) {
-            newUserDto.setPassword(util.passwordEncoder().encode(newUserDto.getNewPass()));
+        if (!newUserDto.getPassword().isBlank()) {
+            newUserDto.setPassword(util.passwordEncoder().encode(newUserDto.getPassword()));
             user.setPassword(newUserDto.getPassword());
         }
         userRepository.save(user);
