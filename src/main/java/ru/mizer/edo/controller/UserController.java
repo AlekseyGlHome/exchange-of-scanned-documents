@@ -5,13 +5,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.mizer.edo.model.dto.NewUserDto;
 import ru.mizer.edo.model.dto.UserDto;
 import ru.mizer.edo.service.UserService;
+import ru.mizer.edo.validation.UserValidator;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -22,6 +20,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final UserValidator userValidator;
 
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('user:moderate')")
@@ -45,9 +44,10 @@ public class UserController {
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('user:moderate')")
     public String add(Principal principal, @Valid @ModelAttribute("editUser") NewUserDto newUserDto, BindingResult result) {
-        if (userService.getCountByName(newUserDto.getName()) > 0) {
-            result.addError(new FieldError("user", "name", "Имя не уникально"));
-        }
+        userValidator.validate(newUserDto, result);
+        //if (userService.getCountByName(newUserDto.getName()) > 0) {
+        //    result.addError(new FieldError("user", "name", "Имя не уникально"));
+        //}
         if (result.hasErrors()) {
             return "new";
         }
@@ -70,12 +70,15 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:moderate')")
     public String edit(Principal principal, @Valid @ModelAttribute("editUser") NewUserDto newUserDto, BindingResult result) {
 //        result = userService.userVerification(newUserDto, result);
-
+        userValidator.validate(newUserDto, result);
         if (result.hasErrors()) {
             return "edit";
         }
 
-        userService.edit(newUserDto);
+        boolean isEditActiveUser = userService.edit(newUserDto, principal.getName());
+        if (isEditActiveUser) {
+            return "redirect:/logout";
+        }
         return "redirect:/user/list";
     }
 

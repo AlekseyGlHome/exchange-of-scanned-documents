@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.mizer.edo.model.entity.User;
-import ru.mizer.edo.validation.DuplicateName;
-import ru.mizer.edo.validation.PasswordChangeCheck;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -20,12 +18,8 @@ public class NewUserDto {
 
     private Integer id;
     @NotEmpty(message = "Поле не может быть пустым")
-    @Size(min = 5, max = 100,message = "Минимум 5 , максимум 100 знаков")
-    @DuplicateName()
+    @Size(min = 5, max = 100, message = "Минимум 5 , максимум 100 знаков")
     private String name;
-//    @NotEmpty(message = "Поле не может быть пустым")
-    //@Size(min = 8,message = "Минимум 8 знаков")
-    @PasswordChangeCheck()
     private String password;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String newPass;

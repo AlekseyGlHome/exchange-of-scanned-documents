@@ -2,8 +2,6 @@ package ru.mizer.edo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import ru.mizer.edo.exception.NotFoundException;
 import ru.mizer.edo.model.converter.ConvertUser;
 import ru.mizer.edo.model.dto.NewUserDto;
@@ -33,6 +31,10 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
+    public Optional<User> findByNameAndActive(String name) {
+        return userRepository.findByNameAndIsActiveTrue(name);
+    }
+
     public UserDto getUserByName(String name) {
         return convertUser.userToDto(userRepository.findByName(name).orElseThrow(() -> new NotFoundException("User not found")));
     }
@@ -57,24 +59,13 @@ public class UserService {
         userRepository.save(new User(newUserDto));
     }
 
-//    public BindingResult userVerification(NewUserDto userDto, BindingResult result) {
-//        User user = userRepository.getById(userDto.getId());
-//        if (!user.getName().equals(userDto.getName())) {
-//            if (getCountByName(userDto.getName()) > 0) {
-//                result.addError(new FieldError("user", "name", "Имя не уникально"));
-//            }
-//        }
-//        if (!userDto.getNewPass().isBlank()) {
-//            if (userDto.getNewPass().length() <= 8) {
-//                result.addError(new FieldError("user", "password", "Минимум 8 знаков"));
-//            }
-//        }
-//
-//        return result;
-//    }
 
-    public void edit(NewUserDto newUserDto) {
+    public boolean edit(NewUserDto newUserDto, String activeUserName) {
+        boolean isEditActiveUser = false;
         User user = userRepository.getById(newUserDto.getId());
+        if (user.getName().equals(activeUserName)) {
+            isEditActiveUser = true;
+        }
         user.setName(newUserDto.getName());
         user.setIsActive(newUserDto.getIsActive());
         user.setIsModerator(newUserDto.getIsModerator());
@@ -83,5 +74,6 @@ public class UserService {
             user.setPassword(newUserDto.getPassword());
         }
         userRepository.save(user);
+        return isEditActiveUser;
     }
 }
